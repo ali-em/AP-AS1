@@ -6,8 +6,8 @@ using namespace std;
 #define SYNTAX_ERROR 2
 #define END_OF_INPUT 1
 
-void printError(int error, unsigned int line);
-unsigned int findSyntaxErrorLine(vector<string> commands);
+void printError(int error, int line);
+int findSyntaxErrorLine(vector<string> commands);
 bool isNumber(string s);
 bool isOperator(char cmd);
 bool isOperator(string cmd);
@@ -16,7 +16,7 @@ bool isCommand(char cmd);
 bool isCommand(string cmd);
 int val(string cmd, map<string, int> var);
 string trim(string str);
-int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, unsigned int &input_number);
+int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, int &input_number);
 void printVariable(vector<string> &line, map<string, int> variables);
 void assign(vector<string> &line, map<string, int> &variables);
 int calc(vector<string> &line, map<string, int> &variables);
@@ -26,19 +26,19 @@ void getInputs(vector<string> &commands);
 int main() {
     map<string, int> variables;
     vector<string> commands, line(1000, ""), inputs;
-    unsigned int input_number = 0;
+    int input_number = 0;
     string cmd;
 
     getCode(commands);
     getInputs(inputs);
 
-    unsigned int syntax_error_line = findSyntaxErrorLine(commands);
+    int syntax_error_line = findSyntaxErrorLine(commands);
     if (syntax_error_line) {
         printError(SYNTAX_ERROR, syntax_error_line);
         return -1;
     }
 
-    for (unsigned int l = 0; l < commands.size(); l++) {
+    for (int l = 0; l < commands.size(); l++) {
         line = explode(commands[l]);
         if (line.size() == 0)
             continue;
@@ -55,17 +55,17 @@ int main() {
         }
     }
 }
-void printError(int error, unsigned int line) {
+void printError(int error, int line) {
     if (error == 1)
         cout << "Unexpected end of input" << endl;
     else if (error == 2)
         cout << "Syntax error at line " << line << endl;
 }
 
-unsigned int findSyntaxErrorLine(vector<string> commands) {
+int findSyntaxErrorLine(vector<string> commands) {
     vector<string> line(1000, "");
     string command;
-    for (unsigned int l = 1; l <= commands.size(); l++) {
+    for (int l = 1; l <= commands.size(); l++) {
         line = explode(commands[l - 1]);
 
         if (line.size() == 0)
@@ -81,7 +81,7 @@ unsigned int findSyntaxErrorLine(vector<string> commands) {
         if (isVar(line[0])) {
             if (line.size() < 3 || line[1] != "=" || line.size() % 2 == 0)
                 return l;
-            for (unsigned int i = 2; i < line.size(); i++) {
+            for (int i = 2; i < line.size(); i++) {
                 if (isCommand(line[i]))
                     return l;
                 if (i % 2 == 0 && !(isNumber(line[i]) || isVar(line[i])))
@@ -94,7 +94,7 @@ unsigned int findSyntaxErrorLine(vector<string> commands) {
     return 0;
 }
 
-int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, unsigned int &input_number) {
+int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, int &input_number) {
     string var = line[1];
     if (input_number >= inputs.size() || !isNumber(inputs[input_number]))
         return 0;
@@ -116,14 +116,14 @@ void assign(vector<string> &line, map<string, int> &variables) {
 int calc(vector<string> &line, map<string, int> &variables) {
     int result = 0;
 
-    for (unsigned int i = 2; i < line.size(); i += 2)
+    for (int i = 2; i < line.size(); i += 2)
         result += val(line[i], variables) * (line[i - 1] == "-" ? -1 : 1);
 
     return result;
 }
 
 bool isNumber(string s) {
-    for (unsigned int i = 0; i < s.length(); i++)
+    for (int i = 0; i < s.length(); i++)
         if (!isdigit(s[i]))
             return false;
 
@@ -133,7 +133,7 @@ bool isNumber(string s) {
 bool isVar(string cmd) {
     if (!isalpha(cmd[0]))
         return false;
-    for (unsigned int i = 0; i < cmd.length(); i++)
+    for (int i = 0; i < cmd.length(); i++)
         if (!(isalpha(cmd[i]) || isdigit(cmd[i])))
             return false;
     return true;
@@ -141,7 +141,7 @@ bool isVar(string cmd) {
 
 string trim(string str) {
     string result;
-    for (unsigned int i = 0; i < str.length(); i++) {
+    for (int i = 0; i < str.length(); i++) {
         if (str[i] == ' ')
             continue;
         result += str[i];
@@ -176,7 +176,7 @@ vector<string> explode(string line) {
     string temp;
     if (line.size() == 0)
         return vector<string>(0);
-    for (unsigned int i = 0; i < line.length(); i++) {
+    for (int i = 0; i < line.length(); i++) {
         if (line[i] == ' ' || isOperator(line[i]) || isCommand(line[i])) {
             if (temp != " " && temp.length() > 0)
                 result.push_back(trim(temp));
