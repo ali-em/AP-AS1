@@ -5,7 +5,10 @@
 using namespace std;
 #define SYNTAX_ERROR 2
 #define END_OF_INPUT 1
-
+#define PRINT_COMMAND "!"
+#define INPUT_COMMAND "?"
+#define ASSIGN_COMMAND "="
+#define SPACE ' '
 void printError(int error, int line);
 int findSyntaxErrorLine(vector<string> commands);
 bool isNumber(string s);
@@ -16,44 +19,50 @@ bool isCommand(char cmd);
 bool isCommand(string cmd);
 int val(string cmd, map<string, int> var);
 string trim(string str);
-int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, int &input_number);
+int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, int &inputNumber);
 void printVariable(vector<string> &line, map<string, int> variables);
 void assign(vector<string> &line, map<string, int> &variables);
 int calc(vector<string> &line, map<string, int> &variables);
 vector<string> explode(string line);
 void getCode(vector<string> &commands);
 void getInputs(vector<string> &commands);
+int run(vector<string> commands, vector<string> inputs);
 int main() {
-    map<string, int> variables;
-    vector<string> commands, line(1000, ""), inputs;
-    int input_number = 0;
-    string cmd;
+    vector<string> commands, inputs;
 
     getCode(commands);
     getInputs(inputs);
 
-    int syntax_error_line = findSyntaxErrorLine(commands);
-    if (syntax_error_line) {
-        printError(SYNTAX_ERROR, syntax_error_line);
+    int syntaxErrorLine = findSyntaxErrorLine(commands);
+    if (syntaxErrorLine) {
+        printError(SYNTAX_ERROR, syntaxErrorLine);
         return -1;
     }
 
+    return run(commands, inputs);
+}
+int run(vector<string> commands, vector<string> inputs) {
+    string cmd;
+    int inputNumber = 0;
+    map<string, int> variables;
+
     for (int l = 0; l < commands.size(); l++) {
-        line = explode(commands[l]);
+        vector<string> line = explode(commands[l]);
         if (line.size() == 0)
             continue;
         cmd = line[0];
-        if (cmd == "!")
+        if (cmd == PRINT_COMMAND)
             printVariable(line, variables);
 
         else if (isVar(cmd))
             assign(line, variables);
 
-        else if (!inputVariable(line, inputs, variables, input_number)) {
+        else if (!inputVariable(line, inputs, variables, inputNumber)) {
             printError(END_OF_INPUT, l + 1);
             return -1;
         }
     }
+    return 0;
 }
 void printError(int error, int line) {
     if (error == 1)
@@ -72,14 +81,14 @@ int findSyntaxErrorLine(vector<string> commands) {
             continue;
         if (line.size() < 2)
             return l;
-        if ((line[0] == "!" || line[0] == "?") && !isVar(line[1]))
+        if ((line[0] == PRINT_COMMAND || line[0] == INPUT_COMMAND) && !isVar(line[1]))
             return l;
-        if ((line[0] == "!" || line[0] == "?") && (line.size() > 2))
+        if ((line[0] == PRINT_COMMAND || line[0] == INPUT_COMMAND) && (line.size() > 2))
             return l;
-        if (isNumber(line[0]) || line[0] == "=" || isOperator(line[0]))
+        if (isNumber(line[0]) || line[0] == ASSIGN_COMMAND || isOperator(line[0]))
             return l;
         if (isVar(line[0])) {
-            if (line.size() < 3 || line[1] != "=" || line.size() % 2 == 0)
+            if (line.size() < 3 || line[1] != ASSIGN_COMMAND || line.size() % 2 == 0)
                 return l;
             for (int i = 2; i < line.size(); i++) {
                 if (isCommand(line[i]))
@@ -94,13 +103,13 @@ int findSyntaxErrorLine(vector<string> commands) {
     return 0;
 }
 
-int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, int &input_number) {
+int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, int &inputNumber) {
     string var = line[1];
-    if (input_number >= inputs.size() || !isNumber(inputs[input_number]))
+    if (inputNumber >= inputs.size() || !isNumber(inputs[inputNumber]))
         return 0;
 
-    variables[var] = stoi(inputs[input_number]);
-    input_number++;
+    variables[var] = stoi(inputs[inputNumber]);
+    inputNumber++;
     return 1;
 }
 
@@ -142,7 +151,7 @@ bool isVar(string cmd) {
 string trim(string str) {
     string result;
     for (int i = 0; i < str.length(); i++) {
-        if (str[i] == ' ')
+        if (str[i] == SPACE)
             continue;
         result += str[i];
     }
@@ -158,11 +167,11 @@ bool isOperator(string cmd) {
 }
 
 bool isCommand(char cmd) {
-    return cmd == '!' || cmd == '?' || cmd == '=';
+    return cmd == INPUT_COMMAND[0] || cmd == PRINT_COMMAND[0] || cmd == ASSIGN_COMMAND[0];
 }
 
 bool isCommand(string cmd) {
-    return cmd == "!" || cmd == "?" || cmd == "=";
+    return cmd == PRINT_COMMAND || cmd == INPUT_COMMAND || cmd == ASSIGN_COMMAND;
 }
 
 int val(string cmd, map<string, int> variables) {
@@ -177,7 +186,7 @@ vector<string> explode(string line) {
     if (line.size() == 0)
         return vector<string>(0);
     for (int i = 0; i < line.length(); i++) {
-        if (line[i] == ' ' || isOperator(line[i]) || isCommand(line[i])) {
+        if (line[i] == SPACE || isOperator(line[i]) || isCommand(line[i])) {
             if (temp != " " && temp.length() > 0)
                 result.push_back(trim(temp));
             if (isOperator(line[i]) || isCommand(line[i]))
