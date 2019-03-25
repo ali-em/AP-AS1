@@ -41,6 +41,7 @@ bool isEmpty(vector<string> line);
 bool hasIOError(vector<string> line);
 bool isNotCommand(vector<string> line);
 bool hasAssignmentError(vector<string> line);
+
 int main() {
     vector<string> commands, inputs;
 
@@ -51,6 +52,7 @@ int main() {
         return -1;
     return run(commands, inputs);
 }
+
 bool hasAssignmentError(vector<string> line) {
     string mainCommand = line[0];
     if (isVar(mainCommand)) {
