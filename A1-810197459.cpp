@@ -9,6 +9,15 @@ using namespace std;
 #define INPUT_COMMAND "?"
 #define ASSIGN_COMMAND "="
 #define SPACE ' '
+#define MIN_COMMAND_SIZE 2
+#define IO_COMMAND_SIZE 2
+#define ASSIGNMENT_MIN_SIZE 3
+#define RUN_COMMAND "run"
+#define PLUS_SIGN "+"
+#define NEGATIVE_SIGN "-"
+#define UNEXPECTED_END_ERROR_MSG "Unexpected end of input"
+#define SYNTAX_ERROR_MSG "Syntax error at line "
+
 void printError(int error, int line);
 int findSyntaxErrorLine(vector<string> commands);
 bool isNumber(string s);
@@ -28,6 +37,10 @@ void getCode(vector<string> &commands);
 void getInputs(vector<string> &commands);
 int run(vector<string> commands, vector<string> inputs);
 bool handleSyntaxError(vector<string> commands);
+bool isEmpty(vector<string> line);
+bool hasIOError(vector<string> line);
+bool isNotCommand(vector<string> line);
+bool hasAssignmentError(vector<string> line);
 int main() {
     vector<string> commands, inputs;
 
@@ -38,6 +51,35 @@ int main() {
         return -1;
     return run(commands, inputs);
 }
+bool hasAssignmentError(vector<string> line) {
+    string mainCommand = line[0];
+    if (isVar(mainCommand)) {
+        if (line.size() < ASSIGNMENT_MIN_SIZE || line[1] != ASSIGN_COMMAND || line.size() % 2 == 0)
+            return 1;
+        for (int i = 2; i < line.size(); i++)
+            if (isCommand(line[i]) ||
+                (i % 2 == 0 && !(isNumber(line[i]) || isVar(line[i]))) ||
+                (i % 2 == 1 && !isOperator(line[i])))
+                return 1;
+    }
+    return 0;
+}
+bool isNotCommand(vector<string> line) {
+    string mainCommand = line[0];
+    if (isNumber(mainCommand) || mainCommand == ASSIGN_COMMAND || isOperator(mainCommand))
+        return 1;
+    return 0;
+}
+bool hasIOError(vector<string> line) {
+    string mainCommand = line[0];
+    if ((mainCommand == PRINT_COMMAND || mainCommand == INPUT_COMMAND) &&
+        (!isVar(line[1]) || line.size() > IO_COMMAND_SIZE))
+        return 1;
+    return 0;
+}
+bool isEmpty(vector<string> line) {
+    return !(line.size());
+}
 bool handleSyntaxError(vector<string> commands) {
     int syntaxErrorLine = findSyntaxErrorLine(commands);
     if (syntaxErrorLine) {
@@ -47,21 +89,19 @@ bool handleSyntaxError(vector<string> commands) {
     return 0;
 }
 int run(vector<string> commands, vector<string> inputs) {
-    string cmd;
+    string mainCommand;
     int inputNumber = 0;
     map<string, int> variables;
 
     for (int l = 0; l < commands.size(); l++) {
         vector<string> line = explode(commands[l]);
-        if (line.size() == 0)
+        if (isEmpty(line))
             continue;
-        cmd = line[0];
-        if (cmd == PRINT_COMMAND)
+        mainCommand = line[0];
+        if (mainCommand == PRINT_COMMAND)
             printVariable(line, variables);
-
-        else if (isVar(cmd))
+        else if (isVar(mainCommand))
             assign(line, variables);
-
         else if (!inputVariable(line, inputs, variables, inputNumber)) {
             printError(END_OF_INPUT, l + 1);
             return -1;
@@ -71,9 +111,9 @@ int run(vector<string> commands, vector<string> inputs) {
 }
 void printError(int error, int line) {
     if (error == 1)
-        cout << "Unexpected end of input" << endl;
+        cout << UNEXPECTED_END_ERROR_MSG << endl;
     else if (error == 2)
-        cout << "Syntax error at line " << line << endl;
+        cout << SYNTAX_ERROR_MSG << line << endl;
 }
 
 int findSyntaxErrorLine(vector<string> commands) {
@@ -82,28 +122,13 @@ int findSyntaxErrorLine(vector<string> commands) {
     for (int l = 1; l <= commands.size(); l++) {
         line = explode(commands[l - 1]);
 
-        if (line.size() == 0)
+        if (isEmpty(line))
             continue;
-        if (line.size() < 2)
+        if (line.size() < MIN_COMMAND_SIZE ||
+            hasIOError(line) ||
+            isNotCommand(line) ||
+            hasAssignmentError(line))
             return l;
-        if ((line[0] == PRINT_COMMAND || line[0] == INPUT_COMMAND) && !isVar(line[1]))
-            return l;
-        if ((line[0] == PRINT_COMMAND || line[0] == INPUT_COMMAND) && (line.size() > 2))
-            return l;
-        if (isNumber(line[0]) || line[0] == ASSIGN_COMMAND || isOperator(line[0]))
-            return l;
-        if (isVar(line[0])) {
-            if (line.size() < 3 || line[1] != ASSIGN_COMMAND || line.size() % 2 == 0)
-                return l;
-            for (int i = 2; i < line.size(); i++) {
-                if (isCommand(line[i]))
-                    return l;
-                if (i % 2 == 0 && !(isNumber(line[i]) || isVar(line[i])))
-                    return l;
-                if (i % 2 == 1 && !isOperator(line[i]))
-                    return l;
-            }
-        }
     }
     return 0;
 }
@@ -129,10 +154,8 @@ void assign(vector<string> &line, map<string, int> &variables) {
 
 int calc(vector<string> &line, map<string, int> &variables) {
     int result = 0;
-
     for (int i = 2; i < line.size(); i += 2)
         result += val(line[i], variables) * (line[i - 1] == "-" ? -1 : 1);
-
     return result;
 }
 
@@ -140,7 +163,6 @@ bool isNumber(string s) {
     for (int i = 0; i < s.length(); i++)
         if (!isdigit(s[i]))
             return false;
-
     return true;
 }
 
@@ -164,11 +186,11 @@ string trim(string str) {
 }
 
 bool isOperator(char cmd) {
-    return cmd == '+' || cmd == '-';
+    return cmd == PLUS_SIGN[0] || cmd == NEGATIVE_SIGN[0];
 }
 
 bool isOperator(string cmd) {
-    return cmd == "+" || cmd == "-";
+    return cmd == PLUS_SIGN || cmd == NEGATIVE_SIGN;
 }
 
 bool isCommand(char cmd) {
@@ -201,13 +223,13 @@ vector<string> explode(string line) {
             temp += line[i];
     }
 
-    if (temp.length() > 0)
+    if (temp.size() > 0)
         result.push_back(trim(temp));
     return result;
 }
 void getCode(vector<string> &commands) {
     string cmd;
-    while (getline(cin, cmd) && trim(cmd) != "run")
+    while (getline(cin, cmd) && trim(cmd) != RUN_COMMAND)
         commands.push_back(cmd);
 }
 
