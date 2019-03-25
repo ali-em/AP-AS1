@@ -49,7 +49,7 @@ int main() {
     getInputs(inputs);
 
     if (handleSyntaxError(commands))
-        return -1;
+        return 1;
     return run(commands, inputs);
 }
 
@@ -106,7 +106,7 @@ int run(vector<string> commands, vector<string> inputs) {
             assign(line, variables);
         else if (!inputVariable(line, inputs, variables, inputNumber)) {
             printError(END_OF_INPUT, l + 1);
-            return -1;
+            return 1;
         }
     }
     return 0;
