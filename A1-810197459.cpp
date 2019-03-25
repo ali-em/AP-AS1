@@ -27,19 +27,24 @@ vector<string> explode(string line);
 void getCode(vector<string> &commands);
 void getInputs(vector<string> &commands);
 int run(vector<string> commands, vector<string> inputs);
+bool handleSyntaxError(vector<string> commands);
 int main() {
     vector<string> commands, inputs;
 
     getCode(commands);
     getInputs(inputs);
 
+    if (handleSyntaxError(commands))
+        return -1;
+    return run(commands, inputs);
+}
+bool handleSyntaxError(vector<string> commands) {
     int syntaxErrorLine = findSyntaxErrorLine(commands);
     if (syntaxErrorLine) {
         printError(SYNTAX_ERROR, syntaxErrorLine);
-        return -1;
+        return 1;
     }
-
-    return run(commands, inputs);
+    return 0;
 }
 int run(vector<string> commands, vector<string> inputs) {
     string cmd;
