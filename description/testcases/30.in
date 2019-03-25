@@ -1,0 +1,121 @@
+? PhilipMortimer
+? FrancisBlake
+? Olrik
+? AhmedNasir
+? SarahSummertown
+AhmedNasir = PhilipMortimer + Olrik + FrancisBlake - Olrik + PhilipMortimer + FrancisBlake - PhilipMortimer + Olrik - PhilipMortimer
+FrancisBlake = FrancisBlake + SarahSummertown
+Olrik = Olrik - AhmedNasir
+AhmedNasir = SarahSummertown - FrancisBlake + AhmedNasir - Olrik + SarahSummertown - AhmedNasir - FrancisBlake - PhilipMortimer + SarahSummertown - FrancisBlake + PhilipMortimer
+Olrik = SarahSummertown
+SarahSummertown = SarahSummertown + AhmedNasir - AhmedNasir
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+AhmedNasir = AhmedNasir + Olrik - SarahSummertown - PhilipMortimer + Olrik - FrancisBlake - Olrik - Olrik - FrancisBlake
+PhilipMortimer = SarahSummertown + Olrik - FrancisBlake + FrancisBlake - PhilipMortimer - FrancisBlake - SarahSummertown - PhilipMortimer + SarahSummertown + PhilipMortimer
+Olrik = Olrik + SarahSummertown - SarahSummertown
+PhilipMortimer = SarahSummertown - AhmedNasir + FrancisBlake
+Olrik = PhilipMortimer + PhilipMortimer + SarahSummertown - PhilipMortimer + SarahSummertown - FrancisBlake + PhilipMortimer + AhmedNasir - AhmedNasir + PhilipMortimer + PhilipMortimer
+SarahSummertown = Olrik - SarahSummertown + AhmedNasir + SarahSummertown - SarahSummertown + FrancisBlake + FrancisBlake - FrancisBlake + SarahSummertown
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+PhilipMortimer = Olrik - PhilipMortimer - FrancisBlake + PhilipMortimer + FrancisBlake - AhmedNasir
+Olrik = SarahSummertown + PhilipMortimer + SarahSummertown - PhilipMortimer - FrancisBlake - AhmedNasir - FrancisBlake + FrancisBlake + FrancisBlake - Olrik
+Olrik = FrancisBlake - PhilipMortimer - Olrik - AhmedNasir
+FrancisBlake = AhmedNasir + PhilipMortimer
+PhilipMortimer = FrancisBlake - SarahSummertown + AhmedNasir - Olrik + SarahSummertown + FrancisBlake - SarahSummertown - AhmedNasir
+AhmedNasir = PhilipMortimer + FrancisBlake - AhmedNasir + PhilipMortimer + FrancisBlake + AhmedNasir - PhilipMortimer + PhilipMortimer - AhmedNasir + Olrik
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+PhilipMortimer = Olrik - SarahSummertown + AhmedNasir - PhilipMortimer - Olrik + Olrik - PhilipMortimer - Olrik - AhmedNasir - SarahSummertown + PhilipMortimer
+Olrik = SarahSummertown - FrancisBlake - FrancisBlake - Olrik - FrancisBlake - Olrik + AhmedNasir + PhilipMortimer - PhilipMortimer - FrancisBlake + Olrik
+AhmedNasir = PhilipMortimer - FrancisBlake + FrancisBlake
+Olrik = FrancisBlake - PhilipMortimer - FrancisBlake - PhilipMortimer
+SarahSummertown = Olrik - Olrik - AhmedNasir
+SarahSummertown = SarahSummertown + Olrik + FrancisBlake - SarahSummertown + SarahSummertown + PhilipMortimer - SarahSummertown
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+AhmedNasir = PhilipMortimer - SarahSummertown - SarahSummertown - Olrik - PhilipMortimer - SarahSummertown + SarahSummertown - PhilipMortimer + SarahSummertown - PhilipMortimer + SarahSummertown
+Olrik = FrancisBlake + AhmedNasir - FrancisBlake
+Olrik = SarahSummertown - AhmedNasir
+Olrik = FrancisBlake - AhmedNasir + SarahSummertown + FrancisBlake + FrancisBlake + AhmedNasir
+SarahSummertown = Olrik + SarahSummertown
+AhmedNasir = Olrik - PhilipMortimer + FrancisBlake - AhmedNasir - PhilipMortimer - SarahSummertown - AhmedNasir + AhmedNasir + FrancisBlake - SarahSummertown
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+SarahSummertown = FrancisBlake + Olrik
+PhilipMortimer = AhmedNasir + Olrik - AhmedNasir - Olrik - AhmedNasir + SarahSummertown + Olrik - FrancisBlake + AhmedNasir + PhilipMortimer
+Olrik = FrancisBlake + AhmedNasir - Olrik - FrancisBlake - PhilipMortimer + PhilipMortimer + FrancisBlake - FrancisBlake + FrancisBlake - AhmedNasir + Olrik
+Olrik = Olrik + AhmedNasir - PhilipMortimer - Olrik + Olrik - SarahSummertown - AhmedNasir + SarahSummertown
+AhmedNasir = PhilipMortimer
+Olrik = Olrik + Olrik - SarahSummertown - Olrik + SarahSummertown - Olrik - AhmedNasir
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+PhilipMortimer = Olrik - Olrik + Olrik - AhmedNasir + Olrik - Olrik + FrancisBlake - SarahSummertown
+SarahSummertown = AhmedNasir - FrancisBlake - FrancisBlake + FrancisBlake - SarahSummertown + AhmedNasir + AhmedNasir - PhilipMortimer
+FrancisBlake = FrancisBlake + Olrik - PhilipMortimer + PhilipMortimer - SarahSummertown - PhilipMortimer + AhmedNasir - Olrik - PhilipMortimer
+FrancisBlake = SarahSummertown + SarahSummertown
+FrancisBlake = FrancisBlake + SarahSummertown + FrancisBlake - Olrik - SarahSummertown - FrancisBlake - SarahSummertown - AhmedNasir - FrancisBlake - AhmedNasir + SarahSummertown
+FrancisBlake = AhmedNasir + SarahSummertown - Olrik + FrancisBlake - AhmedNasir + Olrik - SarahSummertown + PhilipMortimer + FrancisBlake
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+FrancisBlake = PhilipMortimer - PhilipMortimer
+PhilipMortimer = FrancisBlake - PhilipMortimer
+SarahSummertown = FrancisBlake
+AhmedNasir = AhmedNasir + PhilipMortimer
+SarahSummertown = Olrik + FrancisBlake - Olrik - Olrik
+SarahSummertown = Olrik - SarahSummertown + AhmedNasir + Olrik
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+PhilipMortimer = FrancisBlake - Olrik
+Olrik = PhilipMortimer - AhmedNasir
+AhmedNasir = AhmedNasir + AhmedNasir + PhilipMortimer + FrancisBlake + PhilipMortimer - FrancisBlake
+AhmedNasir = AhmedNasir - PhilipMortimer - SarahSummertown - PhilipMortimer + AhmedNasir - FrancisBlake - PhilipMortimer - Olrik
+Olrik = PhilipMortimer - PhilipMortimer - PhilipMortimer - SarahSummertown + FrancisBlake
+Olrik = PhilipMortimer + PhilipMortimer - AhmedNasir - AhmedNasir
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+Olrik = FrancisBlake + Olrik
+FrancisBlake = PhilipMortimer + SarahSummertown - SarahSummertown + SarahSummertown - FrancisBlake - Olrik + FrancisBlake - SarahSummertown - SarahSummertown - FrancisBlake - FrancisBlake
+PhilipMortimer = FrancisBlake + Olrik - FrancisBlake + FrancisBlake - PhilipMortimer + PhilipMortimer - AhmedNasir - SarahSummertown + AhmedNasir
+SarahSummertown = PhilipMortimer - AhmedNasir
+Olrik = AhmedNasir - SarahSummertown - SarahSummertown - SarahSummertown + PhilipMortimer
+Olrik = FrancisBlake + AhmedNasir + FrancisBlake - PhilipMortimer + AhmedNasir - PhilipMortimer + SarahSummertown - AhmedNasir
+! PhilipMortimer
+! FrancisBlake
+! Olrik
+! AhmedNasir
+! SarahSummertown
+run
+0
+1
+1
+3
+9

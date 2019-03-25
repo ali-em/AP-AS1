@@ -1,0 +1,12 @@
+a = 1
+b = 2 
+abc=3
+y = 5
+
+ x = a + b
+! x
+xY=abc
+! xY
+xY=abc - 24+y 
+! xY
+run
