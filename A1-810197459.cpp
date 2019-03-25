@@ -7,7 +7,7 @@ using namespace std;
 #define END_OF_INPUT 1
 
 void printError(int error, unsigned int line);
-unsigned int checkForSyntaxError(vector<string> commands);
+unsigned int findSyntaxErrorLine(vector<string> commands);
 bool isNumber(string s);
 bool isOperator(char cmd);
 bool isOperator(string cmd);
@@ -16,14 +16,13 @@ bool isCommand(char cmd);
 bool isCommand(string cmd);
 int val(string cmd, map<string, int> var);
 string trim(string str);
-int input_variable(vector<string> &line, vector<string> inputs, map<string, int> &variables, unsigned int &input_number);
-void print_variable(vector<string> &line, map<string, int> variables);
+int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, unsigned int &input_number);
+void printVariable(vector<string> &line, map<string, int> variables);
 void assign(vector<string> &line, map<string, int> &variables);
 int calc(vector<string> &line, map<string, int> &variables);
 vector<string> explode(string line);
 void getCode(vector<string> &commands);
 void getInputs(vector<string> &commands);
-
 int main() {
     map<string, int> variables;
     vector<string> commands, line(1000, ""), inputs;
@@ -33,7 +32,7 @@ int main() {
     getCode(commands);
     getInputs(inputs);
 
-    unsigned int syntax_error_line = checkForSyntaxError(commands);
+    unsigned int syntax_error_line = findSyntaxErrorLine(commands);
     if (syntax_error_line) {
         printError(SYNTAX_ERROR, syntax_error_line);
         return -1;
@@ -45,18 +44,17 @@ int main() {
             continue;
         cmd = line[0];
         if (cmd == "!")
-            print_variable(line, variables);
+            printVariable(line, variables);
 
         else if (isVar(cmd))
             assign(line, variables);
 
-        else if (!input_variable(line, inputs, variables, input_number)) {
+        else if (!inputVariable(line, inputs, variables, input_number)) {
             printError(END_OF_INPUT, l + 1);
             return -1;
         }
     }
 }
-
 void printError(int error, unsigned int line) {
     if (error == 1)
         cout << "Unexpected end of input" << endl;
@@ -64,7 +62,7 @@ void printError(int error, unsigned int line) {
         cout << "Syntax error at line " << line << endl;
 }
 
-unsigned int checkForSyntaxError(vector<string> commands) {
+unsigned int findSyntaxErrorLine(vector<string> commands) {
     vector<string> line(1000, "");
     string command;
     for (unsigned int l = 1; l <= commands.size(); l++) {
@@ -96,7 +94,7 @@ unsigned int checkForSyntaxError(vector<string> commands) {
     return 0;
 }
 
-int input_variable(vector<string> &line, vector<string> inputs, map<string, int> &variables, unsigned int &input_number) {
+int inputVariable(vector<string> &line, vector<string> inputs, map<string, int> &variables, unsigned int &input_number) {
     string var = line[1];
     if (input_number >= inputs.size() || !isNumber(inputs[input_number]))
         return 0;
@@ -106,7 +104,7 @@ int input_variable(vector<string> &line, vector<string> inputs, map<string, int>
     return 1;
 }
 
-void print_variable(vector<string> &line, map<string, int> variables) {
+void printVariable(vector<string> &line, map<string, int> variables) {
     string var = line[1];
     cout << variables[var] << endl;
 }
